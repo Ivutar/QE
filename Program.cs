@@ -28,5 +28,20 @@ var bomb_state = new State()
     Number = new SimpleValue<double>() { Value = 10 }
 };
 
+var way_to_clock_tower = new Way()
+{
+    FromId = "CASTLE",
+    ToId = "CLOCK_TOWER",
+    Title = "Подойти к башне с часами"
+};
+
+var way_to_cave = new Way()
+{
+    FromId = "CASTLE",
+    ToId = "CAVE",
+    Title = "Забраться в пещеру",
+    //Visible = new LuaValue<bool>("return states['have_light'].Bool.Value")
+};
+
 Console.WriteLine(clock_tower.Description.Value);
 Console.WriteLine(bomb_state.Number.Value);
