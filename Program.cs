@@ -1,47 +1,45 @@
 ﻿using QE.Logic;
 using QE.Logic.Tool;
 
-var castle = new Location()
+const string LOC_TOP = "LOC_TOP";
+const string LOC_BOTTOM = "LOC_BOTTOM";
+const string STATE_STONE_ON_TOP = "STATE_STONE_ON_TOP";
+
+var q = new Quest();
+
+q.CurrentLocationId = LOC_BOTTOM;
+
+q.Locations[LOC_TOP] = new Location()
 {
-    Id = "CASTLE",
-    Title = "Старый замок",
-    Description = new SimpleValue<string>()
-    {
-        Value = "Старый заброшенный замок. Бла бла бла."
-    }
+    Id = LOC_TOP,
+    Title = "Вершина горы",
+    Description = new LuaValue<string>(q.lua, "...")
 };
 
-var clock_tower = new Location()
+q.Locations[LOC_BOTTOM] = new Location()
 {
-    Id = "CLOCK_TOWER",
-    Title = "Башня с часами",
-    Description = new StringTimeValue()
-    {
-        Value = "Покосившаяся башня с часами. На часах {0}."
-    }
+    Id = LOC_BOTTOM,
+    Title = "Подножие горы",
+    Description = new LuaValue<string>(q.lua, "...")
 };
 
-var bomb_state = new State()
+q.States[STATE_STONE_ON_TOP] = new State()
 {
-    Id = "NUMBER_BOMB_TIMER",
-    //Bool = new SimpleValue<bool>() { Value = true }
-    Number = new SimpleValue<double>() { Value = 10 }
+    Id = STATE_STONE_ON_TOP,
+    Bool = new SimpleValue<bool>() { Value = false }
 };
 
-var way_to_clock_tower = new Way()
+q.Ways.Add(new Way()
 {
-    FromId = "CASTLE",
-    ToId = "CLOCK_TOWER",
-    Title = "Подойти к башне с часами"
-};
+    FromId = LOC_TOP,
+    ToId = LOC_BOTTOM,
+    Title = "Спуститься"
+});
 
-var way_to_cave = new Way()
+q.Ways.Add(new Way()
 {
-    FromId = "CASTLE",
-    ToId = "CAVE",
-    Title = "Забраться в пещеру",
-    //Visible = new LuaValue<bool>("return states['have_light'].Bool.Value")
-};
+    FromId = LOC_BOTTOM,
+    ToId = LOC_TOP,
+    Title = "Подняться"
+});
 
-Console.WriteLine(clock_tower.Description.Value);
-Console.WriteLine(bomb_state.Number.Value);
